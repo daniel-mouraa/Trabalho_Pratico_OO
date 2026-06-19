@@ -1,4 +1,4 @@
-package br.edu.cafeteria.modelo;s
+package br.edu.cafeteria.modelo;
 
 public abstract class Cliente {
 	private String nome, cpf;

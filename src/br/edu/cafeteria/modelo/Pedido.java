@@ -28,7 +28,7 @@ public class Pedido {
 	}
 	
 	public void adicionarItem (Produto p, int qtd)throws EstoqueInsuficienteException {
-		if (qtd < p.getEstoque()) {
+		if (qtd > p.getEstoque()) {
 			throw new EstoqueInsuficienteException("Estoque insuficiente");
 		}
 		

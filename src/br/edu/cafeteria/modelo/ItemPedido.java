@@ -13,4 +13,4 @@ public class ItemPedido {
 		double subtotal = produto.getPreco() * qtd;
 		return subtotal;
 	}
-}s
+}
