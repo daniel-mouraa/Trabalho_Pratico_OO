@@ -28,7 +28,7 @@ public class Pedido {
 	}
 	
 	public void adicionarItem (Produto p, int qtd)throws EstoqueInsuficienteException {
-		if (qtd > p.getEstoque()) {
+		if (qtd < p.getEstoque()) {
 			throw new EstoqueInsuficienteException("Estoque insuficiente");
 		}
 		
@@ -37,6 +37,30 @@ public class Pedido {
 		p.setEstoque(p.getEstoque() - qtd);
 	}
 	
+	public void setNomeAtendente(String nomeAtendente) {
+		this.nomeAtendente = nomeAtendente;
+	}
+
+	public static int getGeradorDeNumero() {
+		return geradorDeNumero;
+	}
+
+	public int getNumeroSequencial() {
+		return numeroSequencial;
+	}
+
+	public List<ItemPedido> getItens() {
+		return itens;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public String getNomeAtendente() {
+		return nomeAtendente;
+	}
+
 	public double calcularTotal() {
 		double total = 0.0;
 		

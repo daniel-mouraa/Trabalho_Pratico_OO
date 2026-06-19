@@ -19,6 +19,10 @@ public abstract class Cliente {
 		return cpf;
 	}
 
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
 	public double getSaldoXP() {
 		return saldoXP;
 	}

@@ -1,6 +1,8 @@
 package br.edu.cafeteria.modelo;
 
-public class Bebida extends Produto{
+import br.edu.cafeteria.servico.Promocional;
+
+public class Bebida extends Produto implements Promocional{
 	private String tamanho, temperatura;
 	private double qtdCafeina;
 	
@@ -21,6 +23,15 @@ public class Bebida extends Produto{
 
 	public double getQtdCafeina() {
 		return qtdCafeina;
+	}
+
+	public void aplicarDescontoBebidas(double porcentagem) {
+		double valorDesconto = this.getPreco() * (porcentagem / 100.0);
+		double novoPreco = this.getPreco() - valorDesconto;
+		
+		this.setPreco(novoPreco);
+		System.out.println("Promocao aplicada! novo preco eh: " + novoPreco);
+		
 	}
 	
 
