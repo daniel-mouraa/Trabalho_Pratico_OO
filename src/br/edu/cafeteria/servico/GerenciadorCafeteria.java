@@ -81,11 +81,22 @@ public class GerenciadorCafeteria {
 		 } 
 	 }
 	 
-	 public void atualizarProduto (int codigo, int novoPreco) {
+	 public void atualizarPrecoProduto (int codigo, double novoPreco) {
 		 Produto produtoEncontrado = buscarProdutoPorCodigo(codigo);
 		 if (produtoEncontrado != null) {
 			 produtoEncontrado.setPreco(novoPreco);
 			 System.out.println("Preco do produto atualizado com Sucesso!");
+		 }
+		 else {
+			 System.out.println("Nenhum produto a ser atualizado!");
+		 }
+	 }
+	 
+	 public void atualizarEstoqueProduto (int codigo, int novoEstoque) {
+		 Produto produtoEncontrado = buscarProdutoPorCodigo(codigo);
+		 if (produtoEncontrado != null) {
+			 produtoEncontrado.setEstoque(novoEstoque);
+			 System.out.println("Estoque do produto atualizado com Sucesso!");
 		 }
 		 else {
 			 System.out.println("Nenhum produto a ser atualizado!");
@@ -118,15 +129,26 @@ public class GerenciadorCafeteria {
 		 }
 	 }
 	 
-	 public void atualizarPedido (int comanda, String novoAtendente) {
-		 Pedido pedidoEncontrado = buscarPedidoPorNumero(comanda);
-		 
-		 if (pedidoEncontrado != null) {
-			 pedidoEncontrado.setNomeAtendente(novoAtendente);
-			 System.out.println("Atendente atualizado com sucesso!");
+	 public void pagarPedido(int comanda) {
+		 Pedido pedido = buscarPedidoPorNumero(comanda);
+		 if (pedido != null) {
+			 pedido.finalizarPagamento();
 		 }
 		 else {
-			 System.out.println("Nenhum pedido a ser alterado!");
+			 System.out.println("Erro: pedido nao encontrado!");
+		 }
+	 }
+	 
+	 public void exibirCardapio() {
+		 if (listaProdutos.isEmpty()) {
+			 System.out.println("Cardapio vazio! Cadastre os produtos antes!");
+		 }
+		 else {
+			 System.out.println("===== CARDAPIO BYTE & BREW ======");
+			 for (Produto p : listaProdutos) {
+				 System.out.println("[Cod: " + p.getCodigo() + "] - " + p.getNome() + "-- R$ " + p.getPreco());
+				 System.out.println("==========================");
+			 }
 		 }
 	 }
 }

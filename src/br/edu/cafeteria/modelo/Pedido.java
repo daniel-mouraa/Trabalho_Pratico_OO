@@ -10,6 +10,7 @@ public class Pedido {
 	private List<ItemPedido> itens;
 	private Cliente cliente;
 	private String nomeAtendente;
+	private boolean pago = false;
 	
 	public Pedido(String nomeAtendente) { //para quem eh cliente sem cadastro
 		this.nomeAtendente = nomeAtendente;
@@ -31,10 +32,63 @@ public class Pedido {
 		if (qtd < p.getEstoque()) {
 			throw new EstoqueInsuficienteException("Estoque insuficiente");
 		}
+		if (this.pago) {
+			System.out.println("Erro! Pedido ja fechado!");
+			return;
+		}
 		
 		ItemPedido novoItem = new ItemPedido(p, qtd);
 		this.itens.add(novoItem);
 		p.setEstoque(p.getEstoque() - qtd);
+	}
+	public void removerItem (int codigo) {
+		ItemPedido itemRemover = null;
+		for (ItemPedido item : this.itens) {
+			if(item.getProduto().getCodigo() == codigo) {
+				itemRemover = item;
+				break;
+			}
+		}
+		if(itemRemover != null) {
+			this.itens.remove(itemRemover);
+			System.out.println("Produto removido!");
+		}
+		else {
+			System.out.println("Produto nao esta na comanda!");
+		}
+	}
+	public void exibirExtrato() {
+		System.out.println("====================== \n" +
+							"Extrato da comanda " + this.numeroSequencial +
+							"==================== \n");
+		if (this.cliente != null) {
+			System.out.println("Cliente: " + this.cliente.getNome());
+		}else {
+			System.out.println("Cliente: Anonimo");
+		}
+		System.out.println("Atendente: " + nomeAtendente);
+		if(this.pago) {
+			System.out.println("Status: Paga e Fechada!");
+		}
+		else {
+			System.out.println("Status: Aberta!");
+		}
+		
+		System.out.println("----- ITENS CONSUMIDOS -----");
+		if (this.itens.isEmpty()) {
+			System.out.println("Nenhum item lancado");
+		}
+		else {
+			for(ItemPedido item : this.itens) {
+				System.out.println("- " + item.getProduto().getNome() + "x " + item.getQtd());
+			}
+		}
+		System.out.println("================================");
+	}
+	
+	public void finalizarPagamento() {
+		this.pago = true;
+		System.out.println("Pedido finalizado com sucesso!");
 	}
 	
 	public void setNomeAtendente(String nomeAtendente) {
@@ -68,6 +122,10 @@ public class Pedido {
 			total = total + item.calcularSubtotal();
 		}
 		return total;
+	}
+	
+	public boolean isPago() {
+		return this.pago;
 	}
 	
 	

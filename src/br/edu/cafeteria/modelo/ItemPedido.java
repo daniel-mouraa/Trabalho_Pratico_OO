@@ -13,4 +13,12 @@ public class ItemPedido {
 		double subtotal = produto.getPreco() * qtd;
 		return subtotal;
 	}
+
+	public int getQtd() {
+		return qtd;
+	}
+
+	public Produto getProduto() {
+		return produto;
+	}
 }

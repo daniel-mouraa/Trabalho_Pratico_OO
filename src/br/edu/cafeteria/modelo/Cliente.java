@@ -2,7 +2,7 @@ package br.edu.cafeteria.modelo;
 
 public abstract class Cliente {
 	private String nome, cpf;
-	private double saldoXP;
+	protected double saldoXP;
 	private static final double Taxa_Real_Xp = 1.0;
 	
 	public Cliente (String nome, String cpf) {
