@@ -353,71 +353,88 @@ public class CafeteriaApp {
 					}
 				}
 				else if(opcaoPedido == 4) {
-					System.out.println("----- FECHAR CONTA -----");
-					System.out.println("Digite a comanda: ");
-					int numComand = teclado.nextInt();
-					teclado.nextLine();
-					
-					Pedido pedidoFechar = sistema.buscarPedidoPorNumero(numComand);
-					
-					if(pedidoFechar != null) {
-						if(pedidoFechar.isPago()) {
-							System.out.println("Erro: comanda ja paga!");
-						}
-						else {
-							double valorTotal = pedidoFechar.calcularTotal();
-							System.out.println("Resumo Comanda " + pedidoFechar.getNumeroSequencial() + ": /n" +
-												"Valor total: R$" + valorTotal);
-							
-							Cliente clienteConta = pedidoFechar.getCliente();
-							if(clienteConta instanceof ClienteVip) {
-								ClienteVip vip = (ClienteVip) clienteConta;
-								System.out.println("Cliente Vip detectado! Saldo Atual: " + vip.getSaldoXP() + "XP");
-								System.out.println("Deseja utilizar XP para abater valor? (S/N)");
-								String resposta = teclado.nextLine();
-								
-								if (resposta.equalsIgnoreCase("S")){
-									try{
-										valorTotal = vip.pagarXp(valorTotal);
-										System.out.println("Desconto Aplicado! Novo valor R$: " + valorTotal);
-									}catch(PontosInsuficientesException e){
-										System.out.println("Atencao: " + e.getMessage());
-										System.out.println("Seguindo com pagamento integral sem desconto!");
-									}
-								}
-								System.out.println("Confirmar pagamento? (S/N)");
-								String confirmaPag = teclado.nextLine();
-								
-								if(confirmaPag.equalsIgnoreCase("S")) {
-									pedidoFechar.finalizarPagamento();
-									
-									if(clienteConta instanceof ClienteVip) {
-										ClienteVip vipp  = (ClienteVip) clienteConta;
-										vipp.calcularXp(valorTotal);
-										System.out.println("Pagamento Concluido! Novos pontos de XP acumulados.");
-							    	}
-									else if (clienteConta instanceof ClienteStandard){
-										ClienteStandard standard = (ClienteStandard) clienteConta;
-										standard.calcularXp(valorTotal);
-										System.out.println("Pagamento Concluido! Novos pontos de XP acumulados.");
-									}
-									else {
-										System.out.println("Pagamento concluido, mas sem acumular cashback!");
-									}
-							}
-							
-							}	
-						}
-					}
-				}
-				else if (opcaoPedido == 5) {
-					System.out.println("----- APAGAR COMANDA -----");
-					System.out.println("Digite a comanda: ");
-					int numComand = teclado.nextInt();
-					teclado.nextLine();
-					
-					sistema.removerPedido(numComand);		
-				}
+                    System.out.println("----- FECHAR CONTA -----");
+                    System.out.println("Digite a comanda: ");
+                    int numComand = teclado.nextInt();
+                    teclado.nextLine();
+                    
+                    Pedido pedidoFechar = sistema.buscarPedidoPorNumero(numComand);
+                    
+                    if(pedidoFechar != null) {
+                        if(pedidoFechar.isPago()) {
+                            System.out.println("Erro: comanda ja paga!");
+                        }
+                        else {
+                            double valorTotal = pedidoFechar.calcularTotal();
+                            System.out.println("Resumo Comanda " + pedidoFechar.getNumeroSequencial() + ": \n" +
+                                               "Valor total: R$" + valorTotal);
+                            
+                            Cliente clienteConta = pedidoFechar.getCliente();
+                            
+                            if(clienteConta instanceof ClienteVip) {
+                                ClienteVip vip = (ClienteVip) clienteConta;
+                                System.out.println("Cliente Vip detectado! Saldo Atual: " + vip.getSaldoXP() + "XP");
+                                System.out.println("Deseja utilizar XP para abater valor? (S/N)");
+                                String resposta = teclado.nextLine();
+                            
+                                if (resposta.equalsIgnoreCase("S")){
+                                    try{
+                                        valorTotal = vip.pagarXp(valorTotal);
+                                        System.out.println("Desconto Aplicado! Novo valor R$: " + valorTotal);
+                                    }catch(PontosInsuficientesException e){
+                                        System.out.println("Atencao: " + e.getMessage());
+                                        System.out.println("Seguindo com pagamento integral sem desconto!");
+                                    }
+                                }
+                            }
+                            
+                            System.out.println("Confirmar pagamento? (S/N)");
+                            String confirmaPag = teclado.nextLine();
+                            
+                            if(confirmaPag.equalsIgnoreCase("S")) {
+                                pedidoFechar.finalizarPagamento();
+                                
+                                if(clienteConta instanceof ClienteVip) {
+                                    ClienteVip vipp  = (ClienteVip) clienteConta;
+                                    vipp.calcularXp(valorTotal);
+                                    System.out.println("Pagamento Concluido! Novos pontos de XP acumulados.");
+                                }
+                                else if (clienteConta instanceof ClienteStandard){
+                                    ClienteStandard standard = (ClienteStandard) clienteConta;
+                                    standard.calcularXp(valorTotal);
+                                    System.out.println("Pagamento Concluido! Novos pontos de XP acumulados.");
+                                    
+                                    if (standard.getSaldoXP() >= 50) {
+                                    	System.out.println("Cliente acumulou 50 pontos e foi promovido a vip!");
+                                    	String nome = standard.getNome();
+                                    	String cpf = standard.getCpf();
+                                    	
+                                    	ClienteVip novoVip = new ClienteVip(nome, cpf);
+                                    	sistema.promoverCliente(novoVip);
+                                    }
+                                }
+                                else {
+                                    System.out.println("Pagamento concluido, mas sem acumular cashback!");
+                                }
+                            } else {
+                                System.out.println("Pagamento Cancelado!");
+                            }
+                        }
+                    } else {
+                        System.out.println("Comanda não encontrada!");
+                    }
+                }
+                
+                else if (opcaoPedido == 5) {
+                    System.out.println("----- APAGAR COMANDA -----");
+                    System.out.println("Digite a comanda: ");
+                    int numComand = teclado.nextInt();
+                    teclado.nextLine();
+                    
+                    sistema.removerPedido(numComand);        
+                }
+                
+                break;
 			}
 		}while (opcao != 4);
 		teclado.close();

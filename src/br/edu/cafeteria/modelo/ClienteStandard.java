@@ -8,6 +8,7 @@ public class ClienteStandard extends Cliente {
 	
 	public double calcularXp(double valorGasto) {
 		double pontos = valorGasto * 1.0;
+		this.saldoXP += pontos;
 		return pontos;
 	}
 

@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.edu.cafeteria.modelo.Cliente;
+import br.edu.cafeteria.modelo.ClienteVip;
 import br.edu.cafeteria.modelo.Pedido;
 import br.edu.cafeteria.modelo.Produto;
 
@@ -53,6 +54,13 @@ public class GerenciadorCafeteria {
 		else {
 			System.out.println("Erro: nenhum cliente encontrado com esse CPF!");
 		}
+	}
+	
+	public void promoverCliente(ClienteVip novoCliente) {
+		String cpfTroca = novoCliente.getCpf();
+		removerCliente(cpfTroca);
+		cadastrarClientes(novoCliente);
+		System.out.println("Cliente promovido para Vip!");
 	}
 	
 	public void cadastrarProdutos(Produto p) {

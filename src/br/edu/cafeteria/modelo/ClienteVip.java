@@ -10,6 +10,7 @@ public class ClienteVip extends Cliente {
 	
 	public double calcularXp(double valorGasto) {
 		double pontos = valorGasto * 2.0;
+		this.saldoXP += pontos;
 		return pontos;
 	}
 	
