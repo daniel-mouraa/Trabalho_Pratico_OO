@@ -3,13 +3,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.edu.cafeteria.excecao.EstoqueInsuficienteException;
+import br.edu.cafeteria.servico.Promocional;
 
-public class Pedido {
+public class Pedido implements Promocional{
 	private static int geradorDeNumero = 1;
 	private int numeroSequencial;
 	private List<ItemPedido> itens;
 	private Cliente cliente;
 	private String nomeAtendente;
+	private double percentualDescontoBebidas = 0.0;
 	private boolean pago = false;
 	
 	public Pedido(String nomeAtendente) {
@@ -60,7 +62,7 @@ public class Pedido {
 		}
 	}
 	public void exibirExtrato() {
-		System.out.println("====================== \n" +
+		System.out.println("====================== " +
 							"Extrato da comanda " + this.numeroSequencial +
 							"==================== \n");
 		if (this.cliente != null) {
@@ -82,7 +84,7 @@ public class Pedido {
 		}
 		else {
 			for(ItemPedido item : this.itens) {
-				System.out.println("- " + item.getProduto().getNome() + "x " + item.getQtd());
+				System.out.println("- " + item.getProduto().getNome() + " (" + item.getQtd() + "x)");
 			}
 		}
 		System.out.println("================================");
@@ -121,13 +123,25 @@ public class Pedido {
 		double total = 0.0;
 		
 		for(ItemPedido item : this.itens) {
-			total = total + item.calcularSubtotal();
+			Produto prod = item.getProduto();
+			double subTotalItem = item.calcularSubtotal();
+			
+			if(prod instanceof Bebida && this.percentualDescontoBebidas > 0 ) {
+				double valorDesconto = subTotalItem * (this.percentualDescontoBebidas / 100);
+				subTotalItem -= valorDesconto;
+			}
+			total += subTotalItem;
 		}
 		return total;
 	}
 	
 	public boolean isPago() {
 		return this.pago;
+	}
+
+	
+	public void aplicarDescontoBebidas(double porcentagem) {
+		this.percentualDescontoBebidas = porcentagem;
 	}
 	
 	

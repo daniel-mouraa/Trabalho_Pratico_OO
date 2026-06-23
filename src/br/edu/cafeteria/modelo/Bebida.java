@@ -13,6 +13,13 @@ public class Bebida extends Produto implements Promocional{
 		this.qtdCafeina = qtdCafeina;
 	}
 	
+	
+	public String toString() {
+		return super.toString() + String.format (java.util.Locale.forLanguageTag("pt-BR")," | [BEBIDA] Tam: %s | Temp: %s | Cafeina: %.1fg",
+												this.tamanho, this.temperatura, this.qtdCafeina);
+	}
+
+
 	public String getTamanho() {
 		return this.tamanho;
 	}

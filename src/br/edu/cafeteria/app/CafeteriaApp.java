@@ -22,11 +22,11 @@ public class CafeteriaApp {
 		
 		System.out.println("Bem vindo ao Sistema Byte & Brew! \n");
 		do {
-			System.out.println("================ MENU PRINCIPAL ===============");
-			System.out.println("1. Menu dos Clientes");
-			System.out.println("2. Menu dos Produtos");
-			System.out.println("3. Menu de Vendas (Pedidos)");
-			System.out.println("4. Sair do Sitema");
+			System.out.println("================ MENU PRINCIPAL ================");
+			System.out.println("1. Menu dos Clientes \n");
+			System.out.println("2. Menu dos Produtos \n");
+			System.out.println("3. Menu de Vendas (Pedidos) \n");
+			System.out.println("4. Sair do Sitema \n");
 			System.out.println("Escolha uma opcao: ");
 			
 			opcao = teclado.nextInt();
@@ -34,7 +34,7 @@ public class CafeteriaApp {
 			
 			switch (opcao) {
 			case 1:
-				System.out.println("====== MENU DOS CLIENTES =====");
+				System.out.println("===== MENU DOS CLIENTES =====");
 				System.out.println("1. Cadastrar novo Cliente \n");
 				System.out.println("2. Buscar Cliente por CPF \n");
 				System.out.println("3. Atualizar nome do Cliente \n");
@@ -63,7 +63,7 @@ public class CafeteriaApp {
 					
 					Cliente busca = sistema.buscarClientePorCpf(cpf);
 					if (busca != null) {
-						System.out.println("Cliente encontrado: " + busca.getNome());
+						System.out.println("Cliente encontrado: " + busca.getNome() + " | Categoria: " + busca.getClass().getSimpleName());
 					} else {
 						System.out.println("Erro! Cliente nao encontrado");
 					}
@@ -87,12 +87,12 @@ public class CafeteriaApp {
 				}
 				break;
 			case 2:
-				System.out.println("====== MENU DOS PRODUTOS =====");
-				System.out.println("1. Cadastrar novo Produto");
-				System.out.println("2. Buscar Produto por codigo");
-				System.out.println("3. Atualizar preco do Produto");
-				System.out.println("4. Atualizar estoque do Produto");
-				System.out.println("5. Remover Produto");
+				System.out.println("===== MENU DOS PRODUTOS =====");
+				System.out.println("1. Cadastrar novo Produto \n");
+				System.out.println("2. Buscar Produto por codigo \n");
+				System.out.println("3. Atualizar preco do Produto \n");
+				System.out.println("4. Atualizar estoque do Produto \n");
+				System.out.println("5. Remover Produto \n");
 				System.out.println("Escolha uma opcao: ");
 				
 				int opcaoProduto = teclado.nextInt();
@@ -160,7 +160,7 @@ public class CafeteriaApp {
 					
 					Produto busca = sistema.buscarProdutoPorCodigo(codigo);
 					if (busca != null) {
-						System.out.println("Produto encontrado: " + busca.getNome());
+						System.out.println("Produto encontrado: \n" + busca);
 					}
 					else {
 						System.out.println("Erro! produto nao encontrado");
@@ -201,11 +201,11 @@ public class CafeteriaApp {
 				break;
 			case 3:
 				System.out.println("====== MENU DAS VENDAS (Pedidos) =====");
-				System.out.println("1. Cadastrar novo Pedido");
-				System.out.println("2. Buscar Pedido por comanda");
-				System.out.println("3. Modificar Pedido");
-				System.out.println("4. Fechar Conta");
-				System.out.println("5. Remover Pedido");
+				System.out.println("1. Cadastrar novo Pedido \n");
+				System.out.println("2. Buscar Pedido por comanda \n");
+				System.out.println("3. Modificar Pedido \n");
+				System.out.println("4. Fechar Conta \n");
+				System.out.println("5. Remover Pedido \n");
 				System.out.println("Escolha uma opcao: ");
 				
 				int opcaoPedido = teclado.nextInt();
@@ -318,7 +318,7 @@ public class CafeteriaApp {
 						System.out.println("Comanda ja paga, nao eh possivel alterar!");
 					}
 					else {
-						System.out.println("1. Adicionar Item /n" +
+						System.out.println("1. Adicionar Item \n" +
 											"2. Remover Item");
 						System.out.println("Escolha: ");
 						int opcaoAlt = teclado.nextInt();
@@ -366,9 +366,19 @@ public class CafeteriaApp {
                             System.out.println("Erro: comanda ja paga!");
                         }
                         else {
+                        	System.out.println("Hoje eh dia de  Evento Geek? (S/N)");
+                        	String respostaGeek = teclado.nextLine();
+                        	
+                        	if(respostaGeek.equalsIgnoreCase("S")) {
+                        		pedidoFechar.aplicarDescontoBebidas(10.0);
+                        		System.out.println("Promocao aplicada! 10% off nas bebidas!");
+                        	}
+                        	
                             double valorTotal = pedidoFechar.calcularTotal();
+                            String totalFormatado = String.format(java.util.Locale.forLanguageTag("pt-BR"), "%.2f", valorTotal);
                             System.out.println("Resumo Comanda " + pedidoFechar.getNumeroSequencial() + ": \n" +
-                                               "Valor total: R$" + valorTotal);
+                                               "Valor total: R$" + totalFormatado);
+                            
                             
                             Cliente clienteConta = pedidoFechar.getCliente();
                             
@@ -381,7 +391,8 @@ public class CafeteriaApp {
                                 if (resposta.equalsIgnoreCase("S")){
                                     try{
                                         valorTotal = vip.pagarXp(valorTotal);
-                                        System.out.println("Desconto Aplicado! Novo valor R$: " + valorTotal);
+                                        String descontoFormatado = String.format(java.util.Locale.forLanguageTag("pt-BR"), "%.2f", valorTotal);
+                                        System.out.println("Desconto Aplicado! Novo valor R$: " + descontoFormatado);
                                     }catch(PontosInsuficientesException e){
                                         System.out.println("Atencao: " + e.getMessage());
                                         System.out.println("Seguindo com pagamento integral sem desconto!");

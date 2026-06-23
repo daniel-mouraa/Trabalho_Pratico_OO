@@ -3,7 +3,6 @@ package br.edu.cafeteria.modelo;
 public abstract class Cliente {
 	private String nome, cpf;
 	protected double saldoXP;
-	private static final double Taxa_Real_Xp = 1.0;
 	
 	public Cliente (String nome, String cpf) {
 		this.nome = nome;
@@ -25,10 +24,6 @@ public abstract class Cliente {
 
 	public double getSaldoXP() {
 		return saldoXP;
-	}
-
-	public static double getTaxaRealXp() {
-		return Taxa_Real_Xp;
 	}
 
 	public abstract double calcularXp(double valorGasto);

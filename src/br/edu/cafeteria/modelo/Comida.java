@@ -10,6 +10,12 @@ public class Comida extends Produto {
 		this.restricao = restricao;
 	}
 	
+	public String toString() {
+		return super.toString() + String.format(java.util.Locale.forLanguageTag("pt-BR"), " | [COMIDA] Restricao: %s | Preparo: %d min",
+									this.restricao, this.tempoPreparo);
+	}
+
+
 	public int getTempoPrep() {
 		return this.tempoPreparo;
 	}

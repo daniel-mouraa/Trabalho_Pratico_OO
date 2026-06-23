@@ -3,13 +3,13 @@ package br.edu.cafeteria.modelo;
 import br.edu.cafeteria.excecao.PontosInsuficientesException;
 
 public class ClienteVip extends Cliente {
-
+	private static final double taxa_vip = 2.0;
 	public ClienteVip(String nome, String cpf) {
 		super(nome, cpf);
 	}
 	
 	public double calcularXp(double valorGasto) {
-		double pontos = valorGasto * 2.0;
+		double pontos = valorGasto * taxa_vip;
 		this.saldoXP += pontos;
 		return pontos;
 	}
@@ -33,5 +33,6 @@ public class ClienteVip extends Cliente {
 			return novoValor;
 		}
 	}
+	
 
 }

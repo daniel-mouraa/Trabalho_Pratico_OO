@@ -13,6 +13,11 @@ public abstract class Produto {
 		this.estoque = estoque;
 	}
 	
+	public String toString() {
+	    return String.format(java.util.Locale.forLanguageTag("pt-BR"), "Nº %d | %s | Preço: R$ %.2f | Estoque: %d", 
+	                         this.codigo, this.nome, this.preco, this.estoque);
+	}
+	
 	public double getPreco() {
 		return this.preco;
 	}

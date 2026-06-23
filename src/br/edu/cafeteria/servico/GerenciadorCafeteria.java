@@ -153,7 +153,7 @@ public class GerenciadorCafeteria {
 		 else {
 			 System.out.println("===== CARDAPIO BYTE & BREW ======");
 			 for (Produto p : listaProdutos) {
-				 System.out.println("[Cod: " + p.getCodigo() + "] - " + p.getNome() + " -- R$ " + p.getPreco());
+				 System.out.println(p);
 				 System.out.println("==========================");
 			 }
 		 }
