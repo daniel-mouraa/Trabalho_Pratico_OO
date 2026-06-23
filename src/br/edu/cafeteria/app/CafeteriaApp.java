@@ -2,6 +2,7 @@ package br.edu.cafeteria.app;
 
 import java.util.Scanner;
 
+import br.edu.cafeteria.excecao.EstoqueInsuficienteException;
 import br.edu.cafeteria.excecao.PontosInsuficientesException;
 import br.edu.cafeteria.modelo.Bebida;
 import br.edu.cafeteria.modelo.Cliente;
@@ -127,7 +128,7 @@ public class CafeteriaApp {
 						if(tipoProduto == 1) {
 							System.out.println("Qual o tamanho? (P/M/G)");
 							String tamanho = teclado.nextLine();
-							System.out.println("Qual a temperatura? (Quente/Frio");
+							System.out.println("Qual a temperatura? (Quente/Frio)");
 							String temperatura = teclado.nextLine();
 							System.out.println("Tem quantas gramas de cafeina?");
 							double cafeina = teclado.nextDouble();
@@ -276,9 +277,9 @@ public class CafeteriaApp {
 							if(produtoAdd != null) {
 								try {
 									novaComanda.adicionarItem(produtoAdd, qtd);
-									System.out.println(produtoAdd.getNome() + "x " + qtd + "adicionados com sucesso!");
-								}catch(Exception erroPedido) {
-									System.out.println("Motivo: " + erroPedido.getMessage());
+									System.out.println(produtoAdd.getNome() + " (" + qtd + "x)" + " adicionados com sucesso!");
+								}catch(EstoqueInsuficienteException erroPedido) {
+									System.out.println(erroPedido.getMessage());
 								}
 							}
 							else {
@@ -287,7 +288,7 @@ public class CafeteriaApp {
 						}
 					}while (opcaoItem != 2);
 					sistema.cadastrarPedido(novaComanda);
-					System.out.println("Comanda " + novaComanda.getNumeroSequencial() + "salva com sucesso!");
+					System.out.println("Comanda " + novaComanda.getNumeroSequencial() + " salva com sucesso!");
 				}
 				else if (opcaoPedido == 2) {
 					System.out.println("----- BUSCAR PEDIDO POR COMANDA -----");
@@ -310,10 +311,10 @@ public class CafeteriaApp {
 					teclado.nextLine();
 					
 					Pedido busca = sistema.buscarPedidoPorNumero(comanda);
-					if(busca != null) {
+					if(busca == null) {
 						System.out.println("Comanda nao encontrada!");
 					}
-					if(busca.isPago()) {
+					else if(busca.isPago()) {
 						System.out.println("Comanda ja paga, nao eh possivel alterar!");
 					}
 					else {
@@ -404,8 +405,8 @@ public class CafeteriaApp {
                                     standard.calcularXp(valorTotal);
                                     System.out.println("Pagamento Concluido! Novos pontos de XP acumulados.");
                                     
-                                    if (standard.getSaldoXP() >= 50) {
-                                    	System.out.println("Cliente acumulou 50 pontos e foi promovido a vip!");
+                                    if (standard.getSaldoXP() >= 100) {
+                                    	System.out.println("Cliente acumulou 100 pontos e foi promovido a vip!");
                                     	String nome = standard.getNome();
                                     	String cpf = standard.getCpf();
                                     	

@@ -12,7 +12,7 @@ public class Pedido {
 	private String nomeAtendente;
 	private boolean pago = false;
 	
-	public Pedido(String nomeAtendente) { //para quem eh cliente sem cadastro
+	public Pedido(String nomeAtendente) {
 		this.nomeAtendente = nomeAtendente;
 		this.cliente = null;
 		this.numeroSequencial = geradorDeNumero++;
@@ -29,14 +29,16 @@ public class Pedido {
 	}
 	
 	public void adicionarItem (Produto p, int qtd)throws EstoqueInsuficienteException {
-		if (qtd < p.getEstoque()) {
-			throw new EstoqueInsuficienteException("Estoque insuficiente");
+		if (qtd <= 0) {
+			throw new EstoqueInsuficienteException("A quantidade deve ser maior que zero!");
+		}
+		if (p.getEstoque() < qtd) {
+			throw new EstoqueInsuficienteException("Estoque insuficiente! Temos apenas " + p.getEstoque());
 		}
 		if (this.pago) {
 			System.out.println("Erro! Pedido ja fechado!");
 			return;
 		}
-		
 		ItemPedido novoItem = new ItemPedido(p, qtd);
 		this.itens.add(novoItem);
 		p.setEstoque(p.getEstoque() - qtd);

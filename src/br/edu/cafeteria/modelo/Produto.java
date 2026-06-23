@@ -10,6 +10,7 @@ public abstract class Produto {
 		this.codigo = codigo;
 		this.nome = nome;
 		this.preco = preco;
+		this.estoque = estoque;
 	}
 	
 	public double getPreco() {
