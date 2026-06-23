@@ -20,7 +20,6 @@ public class GerenciadorCafeteria {
 	
 	public void cadastrarClientes(Cliente c) {
 		this.listaClientes.add(c);
-		System.out.println("Cliente Cadastrado com sucesso!");
 	}
 	
 	public Cliente buscarClientePorCpf(String cpf) {
@@ -37,7 +36,6 @@ public class GerenciadorCafeteria {
 		
 		if (clienteEncontrado != null) {
 			this.listaClientes.remove(clienteEncontrado);
-			System.out.println("Cliente removido com sucesso!");
 		}
 		else {
 			System.out.println("Erro: Nenhum cliente encontrado para ser removido.");

@@ -54,6 +54,7 @@ public class CafeteriaApp {
 					
 					ClienteStandard novoCliente = new ClienteStandard(nome, cpf);
 					sistema.cadastrarClientes(novoCliente);
+					System.out.println("Cliente Cadastrado com sucesso!");
 					
 				}
 				else if (opcaoCliente == 2) {
@@ -84,6 +85,7 @@ public class CafeteriaApp {
 					String cpf = teclado.nextLine();
 					
 					sistema.removerCliente(cpf);
+					System.out.println("Cliente removido com sucesso!");
 				}
 				break;
 			case 2:
