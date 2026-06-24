@@ -14,6 +14,10 @@ public class ItemPedido {
 		return subtotal;
 	}
 
+	public void setQtd(int qtd) {
+		this.qtd = qtd;
+	}
+
 	public int getQtd() {
 		return qtd;
 	}

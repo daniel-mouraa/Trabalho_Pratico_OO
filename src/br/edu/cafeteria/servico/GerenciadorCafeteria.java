@@ -54,10 +54,15 @@ public class GerenciadorCafeteria {
 		}
 	}
 	
-	public void promoverCliente(ClienteVip novoCliente) {
-		String cpfTroca = novoCliente.getCpf();
-		removerCliente(cpfTroca);
-		cadastrarClientes(novoCliente);
+	public void promoverCliente(String cpf) {
+		Cliente clienteAntigo = buscarClientePorCpf(cpf);
+		
+		String nome = clienteAntigo.getNome();
+		double pontosHerdados = clienteAntigo.getSaldoXP();
+		
+		ClienteVip novoVip = new ClienteVip(nome, cpf, pontosHerdados); 
+		removerCliente(cpf);
+		cadastrarClientes(novoVip);
 		System.out.println("Cliente promovido para Vip!");
 	}
 	
@@ -102,7 +107,7 @@ public class GerenciadorCafeteria {
 		 Produto produtoEncontrado = buscarProdutoPorCodigo(codigo);
 		 if (produtoEncontrado != null) {
 			 produtoEncontrado.setEstoque(novoEstoque);
-			 System.out.println("Estoque do produto atualizado com Sucesso!");
+			 System.out.println("Estoque do produto atualizado com Sucesso! Nova quantidade: " + produtoEncontrado.getEstoque());
 		 }
 		 else {
 			 System.out.println("Nenhum produto a ser atualizado!");

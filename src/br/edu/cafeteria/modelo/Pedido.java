@@ -31,21 +31,30 @@ public class Pedido implements Promocional{
 	}
 	
 	public void adicionarItem (Produto p, int qtd)throws EstoqueInsuficienteException {
+		if (this.pago) {
+			System.out.println("Erro! Pedido ja fechado!");
+			return;
+		}
 		if (qtd <= 0) {
 			throw new EstoqueInsuficienteException("A quantidade deve ser maior que zero!");
 		}
 		if (p.getEstoque() < qtd) {
 			throw new EstoqueInsuficienteException("Estoque insuficiente! Temos apenas " + p.getEstoque());
 		}
-		if (this.pago) {
-			System.out.println("Erro! Pedido ja fechado!");
-			return;
+		for (ItemPedido item : itens) {
+			if(item.getProduto().getCodigo() == p.getCodigo()) {
+				int quantidadeAntiga = item.getQtd();
+				item.setQtd(quantidadeAntiga + qtd);
+				
+				p.setEstoque(p.getEstoque() - qtd);
+				return;
+			}
 		}
 		ItemPedido novoItem = new ItemPedido(p, qtd);
 		this.itens.add(novoItem);
 		p.setEstoque(p.getEstoque() - qtd);
 	}
-	public void removerItem (int codigo) {
+	public void removerItem (int codigo, int qtdRemover){
 		ItemPedido itemRemover = null;
 		for (ItemPedido item : this.itens) {
 			if(item.getProduto().getCodigo() == codigo) {
@@ -53,13 +62,30 @@ public class Pedido implements Promocional{
 				break;
 			}
 		}
-		if(itemRemover != null) {
-			this.itens.remove(itemRemover);
-			System.out.println("Produto removido!");
-		}
-		else {
+		if(itemRemover == null) {
 			System.out.println("Produto nao esta na comanda!");
+			return;
 		}
+		if (qtdRemover <= 0) {
+			System.out.println("A quantidade a ser removida tem que ser maior que 0!");
+			return;
+		}
+		int quantidadeAtual = itemRemover.getQtd();
+		if(qtdRemover > quantidadeAtual) {
+			System.out.println("Erro! tentou-se remover mais do que existe na comanda.");
+			return;
+		}
+		int novaQuantidade = quantidadeAtual - qtdRemover;
+		if(novaQuantidade == 0) {
+			this.itens.remove(itemRemover);
+			System.out.println("Produto completamente removido!");
+		}else {
+			itemRemover.setQtd(novaQuantidade);
+			System.out.println("Quantidade atualizada! Agora existem: " + novaQuantidade);
+		}
+		
+		Produto p = itemRemover.getProduto();
+		p.setEstoque(p.getEstoque() + qtdRemover);
 	}
 	public void exibirExtrato() {
 		System.out.println("====================== " +
@@ -84,7 +110,8 @@ public class Pedido implements Promocional{
 		}
 		else {
 			for(ItemPedido item : this.itens) {
-				System.out.println("- " + item.getProduto().getNome() + " (" + item.getQtd() + "x)");
+				System.out.println("- " +"[Cod: " + item.getProduto().getCodigo() +"] " + 
+			    item.getProduto().getNome() + " (" + item.getQtd() + "x)");
 			}
 		}
 		System.out.println("================================");

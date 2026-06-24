@@ -7,6 +7,10 @@ public class ClienteVip extends Cliente {
 	public ClienteVip(String nome, String cpf) {
 		super(nome, cpf);
 	}
+	public ClienteVip(String nome, String cpf, double pontosHerdados) {
+		super(nome, cpf);
+		this.saldoXP = pontosHerdados;
+	}
 	
 	public double calcularXp(double valorGasto) {
 		double pontos = valorGasto * taxa_vip;
@@ -29,10 +33,8 @@ public class ClienteVip extends Cliente {
 			double novoValor = valorGasto - valorConvertido;
 			this.saldoXP = 0;
 			
-			System.out.println("Desconto aplicado! Desconto total de R$ " + valorConvertido);
+			System.out.println("Desconto total de R$ " + valorConvertido);
 			return novoValor;
 		}
 	}
-	
-
 }

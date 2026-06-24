@@ -348,10 +348,14 @@ public class CafeteriaApp {
 						else if(opcaoAlt == 2) {
 							busca.exibirExtrato();
 							System.out.println("Qual o codigo do produto a ser removido?");
-							int remover = teclado.nextInt();
+							int codigoRemover = teclado.nextInt();
 							teclado.nextLine();
 							
-							busca.removerItem(remover);
+							System.out.println("Qual a quantidade a ser removida?");
+							int qtdRemover = teclado.nextInt();
+							teclado.nextLine();
+							
+							busca.removerItem(codigoRemover, qtdRemover);
 						}
 					}
 				}
@@ -378,8 +382,9 @@ public class CafeteriaApp {
                         	
                             double valorTotal = pedidoFechar.calcularTotal();
                             String totalFormatado = String.format(java.util.Locale.forLanguageTag("pt-BR"), "%.2f", valorTotal);
-                            System.out.println("Resumo Comanda " + pedidoFechar.getNumeroSequencial() + ": \n" +
+                            System.out.println("Comanda " + pedidoFechar.getNumeroSequencial() + ": \n" +
                                                "Valor total: R$" + totalFormatado);
+                            pedidoFechar.exibirExtrato();
                             
                             
                             Cliente clienteConta = pedidoFechar.getCliente();
@@ -394,7 +399,7 @@ public class CafeteriaApp {
                                     try{
                                         valorTotal = vip.pagarXp(valorTotal);
                                         String descontoFormatado = String.format(java.util.Locale.forLanguageTag("pt-BR"), "%.2f", valorTotal);
-                                        System.out.println("Desconto Aplicado! Novo valor R$: " + descontoFormatado);
+                                        System.out.println("Novo valor R$: " + descontoFormatado);
                                     }catch(PontosInsuficientesException e){
                                         System.out.println("Atencao: " + e.getMessage());
                                         System.out.println("Seguindo com pagamento integral sem desconto!");
@@ -411,12 +416,14 @@ public class CafeteriaApp {
                                 if(clienteConta instanceof ClienteVip) {
                                     ClienteVip vipp  = (ClienteVip) clienteConta;
                                     vipp.calcularXp(valorTotal);
-                                    System.out.println("Pagamento Concluido! Novos pontos de XP acumulados.");
+                                    System.out.println("Pagamento Concluido! Novos pontos de XP acumulados!"
+                                    		+ " Saldo Atual: " + vipp.getSaldoXP());
                                 }
                                 else if (clienteConta instanceof ClienteStandard){
                                     ClienteStandard standard = (ClienteStandard) clienteConta;
                                     standard.calcularXp(valorTotal);
-                                    System.out.println("Pagamento Concluido! Novos pontos de XP acumulados.");
+                                    System.out.println("Pagamento Concluido! Novos pontos de XP acumulados!"
+                                    		+ " Saldo Atual: " + standard.getSaldoXP());
                                     
                                     if (standard.getSaldoXP() >= 100) {
                                     	System.out.println("Cliente acumulou 100 pontos e foi promovido a vip!");
@@ -424,7 +431,7 @@ public class CafeteriaApp {
                                     	String cpf = standard.getCpf();
                                     	
                                     	ClienteVip novoVip = new ClienteVip(nome, cpf);
-                                    	sistema.promoverCliente(novoVip);
+                                    	sistema.promoverCliente(novoVip.getCpf());
                                     }
                                 }
                                 else {

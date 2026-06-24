@@ -14,7 +14,7 @@ public abstract class Produto {
 	}
 	
 	public String toString() {
-	    return String.format(java.util.Locale.forLanguageTag("pt-BR"), "Nº %d | %s | Preço: R$ %.2f | Estoque: %d", 
+	    return String.format(java.util.Locale.forLanguageTag("pt-BR"), "Cod: %d | %s | Preço: R$ %.2f | Estoque: %d", 
 	                         this.codigo, this.nome, this.preco, this.estoque);
 	}
 	
