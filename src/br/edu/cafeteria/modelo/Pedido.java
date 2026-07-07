@@ -54,6 +54,9 @@ public class Pedido implements Promocional{
 		this.itens.add(novoItem);
 		p.setEstoque(p.getEstoque() - qtd);
 	}
+	public void adicionarItem (Produto p) throws EstoqueInsuficienteException {
+		this.adicionarItem(p, 1);
+	}
 	public void removerItem (int codigo, int qtdRemover){
 		ItemPedido itemRemover = null;
 		for (ItemPedido item : this.itens) {

@@ -278,7 +278,11 @@ public class CafeteriaApp {
 							Produto produtoAdd = sistema.buscarProdutoPorCodigo(codProd);
 							if(produtoAdd != null) {
 								try {
-									novaComanda.adicionarItem(produtoAdd, qtd);
+									if (qtd == 1) {
+						                novaComanda.adicionarItem(produtoAdd); 
+						            } else {
+						                novaComanda.adicionarItem(produtoAdd, qtd);
+						            }
 									System.out.println(produtoAdd.getNome() + " (" + qtd + "x)" + " adicionados com sucesso!");
 								}catch(EstoqueInsuficienteException erroPedido) {
 									System.out.println(erroPedido.getMessage());
@@ -338,7 +342,11 @@ public class CafeteriaApp {
 							Produto adicionado = sistema.buscarProdutoPorCodigo(prodAdd);
 							if(adicionado != null) {
 								try {
-									busca.adicionarItem(adicionado, qtdAdd);
+									if (qtdAdd == 1) {
+										busca.adicionarItem(adicionado);
+									} else {
+										busca.adicionarItem(adicionado, qtdAdd);
+									}
 									System.out.println("Produto Adicionado!");
 								}catch(Exception erroPedido) {
 									System.out.println("Motivo: " + erroPedido.getMessage());
